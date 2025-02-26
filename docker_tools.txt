@@ -1,0 +1,4 @@
+Destruction et construction des conteneurs
+    docker-compose down
+    docker-compose up -d --build
+
