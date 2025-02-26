@@ -18,9 +18,10 @@ services:
       - inception
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 3s
+      interval: 5s
       timeout: 5s
-      retries: 3
+      retries: 5
+      start_period: 10s
 
   nginx:
     build: ./srcs/nginx
@@ -43,16 +44,31 @@ services:
       mariadb:
         condition: service_healthy
     environment:
-      - WORDPRESS_DB_HOST=mariadb:3306
-      - WORDPRESS_DB_USER=${MYSQL_USER}
-      - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
-      - WORDPRESS_DB_NAME=${MYSQL_DB}
+      - MYSQL_DB=${MYSQL_DB}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - WP_TITLE=${WP_TITLE}
+      - WP_ADMIN_N=${WP_ADMIN_N}
+      - WP_ADMIN_P=${WP_ADMIN_P}
+      - WP_ADMIN_E=${WP_ADMIN_E}
+      - WP_U_NAME=${WP_U_NAME}
+      - WP_U_PASS=${WP_U_PASS}
+      - WP_U_ROLE=${WP_U_ROLE}
+      - WP_U_EMAIL=${WP_U_EMAIL}
     volumes:
       - wordpress:/var/www/wordpress
     env_file:
       - .env
     networks:
       - inception
+    healthcheck:
+      test: ["CMD", "pidof", "php-fpm7.4"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
 volumes:
   mariadb:

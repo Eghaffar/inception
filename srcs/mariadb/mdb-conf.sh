@@ -23,11 +23,11 @@ while ! mysqladmin ping -u root --silent; do
 done
 
 #conf seulement si base n'existe pas encore
-if ! mariadb -u root -e "USE ${MYSQL_DB};" 2>/dev/null; then
+if ! mariadb -u root -p"${MYSQL_ROOT_PASSWORD}" -e "USE ${MYSQL_DB};" 2>/dev/null; then
     echo "Creating MariaDB database and user..."
 
     #conf initiale sans mdp
-    mariadb -u root <<EOF 
+    mariadb -u root --skip-password <<EOF 
 CREATE DATABASE IF NOT EXISTS ${MYSQL_DB} CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
 GRANT ALL PRIVILEGES ON ${MYSQL_DB}.* TO '${MYSQL_USER}'@'%';
