@@ -1,10 +1,11 @@
-WP_DATA = /home/data/wordpress
-DB_DATA = /home/data/mariadb
+WP_DATA = /home/eghaffar/data/wordpress
+DB_DATA = /home/eghaffar/data/mariadb
 
 all: up
 
 up: build
-	@mkdir -p $(WP_DATA) $(DB_DATA)
+	@sudo mkdir -p $(WP_DATA) $(DB_DATA)
+	@sudo chmod 777 $(WP_DATA) $(DB_DATA)
 	docker-compose up -d --build
 
 down:
@@ -16,7 +17,7 @@ build:
 clean:
 	@docker-compose down -v --remove-orphans
 	@sudo rm -rf $(WP_DATA) $(DB_DATA)
-	@mkdir -p $(WP_DATA) $(DB_DATA)
+	@sudo mkdir -p $(WP_DATA) $(DB_DATA)
 	@sudo chmod 777 $(WP_DATA) $(DB_DATA)
 
 prune: clean

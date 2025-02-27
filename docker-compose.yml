@@ -5,6 +5,8 @@ services:
     build: ./srcs/mariadb
     container_name: mariadb
     restart: always
+    ports:
+      - "3306:3306"
     environment:
       - MYSQL_DB=${MYSQL_DB}
       - MYSQL_USER=${MYSQL_USER}
@@ -61,6 +63,8 @@ services:
       - wordpress:/var/www/wordpress
     env_file:
       - .env
+    ports:
+      - "9000:9000"
     networks:
       - inception
     healthcheck:
@@ -75,13 +79,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/data/mariadb
+      device: /home/eghaffar/data/mariadb
       o: bind
   wordpress:
     driver: local
     driver_opts:
       type: none
-      device: /home/data/wordpress
+      device: /home/eghaffar/data/wordpress
       o: bind
 
 networks:

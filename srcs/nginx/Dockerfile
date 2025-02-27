@@ -4,6 +4,7 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y nginx openssl ca-certificates
 
 RUN mkdir -p /etc/nginx/ssl
+#generation certificat : utilisation dopenssl, creation certificat autosigne, specification des details du certificat
 RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=FR/ST=KH/L=KH/O=42/OU=42/CN=eghaffar.42.fr/UID=eghaffar"
 
 RUN mkdir -p /usr/local/share/ca-certificates && \
